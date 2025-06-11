@@ -23,7 +23,7 @@ function ProjectList() {
             <div className="projects-grid">
 
                 {
-                    projects ?
+                    projects && projects.length !== 0  ?
                         projects.map((project) => {
                             return <SingleProject key={project.id} {...project} userRole={userRole} />;
                         }) :

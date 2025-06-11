@@ -47,7 +47,7 @@ function AddFrom({ projects, projectId, users }) {
                     }
 
                 </select>
-                <select name='project' defaultValue={[projectId]} disabled={projectId}>
+                <select name='project' defaultValue={projectId} disabled={projectId}>
                     {
                         !projectId &&
                         <option value={0}>Select Project</option>
