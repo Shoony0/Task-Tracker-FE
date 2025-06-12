@@ -11,8 +11,8 @@ RUN npm ci
 # Copy app source code
 COPY . .
 
-# ENV NEXT_IGNORE_TYPE_ERRORS true
-ENV NEXT_FONT_DOWNLOAD_DISABLE 1
+
+# ENV NEXT_FONT_DOWNLOAD_DISABLE 1
 
 # Build the app
 RUN npm run build
