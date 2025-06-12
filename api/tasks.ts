@@ -4,6 +4,7 @@ import axiosInstance from '@/utils/axios';
 import { toast } from "react-toastify";
 import { AxiosError } from "axios";
 import { TasksForm, taskUpdateStatus } from "@/utils/types";
+import { getErrorMessage } from "@/utils/actions";
 
 
 export const useFetchTasks = (projectId: number | undefined) => {
@@ -48,7 +49,7 @@ export const useCreateTask = () => {
         },
         onError: (error) => {
             const axiosError = error as AxiosError<any>;
-            toast.error(axiosError?.response?.data?.detail || 'Failed to create task.')
+            toast.error(getErrorMessage(axiosError) || 'Failed to create task.')
             console.log(error)
         },
     });
@@ -71,7 +72,7 @@ export const useUpdateTask = (id: number) => {
         },
         onError: (error) => {
             const axiosError = error as AxiosError<any>;
-            toast.error(axiosError?.response?.data?.detail || 'Failed to update task.')
+            toast.error(getErrorMessage(axiosError) || 'Failed to update task.')
             console.log(error)
         },
     });

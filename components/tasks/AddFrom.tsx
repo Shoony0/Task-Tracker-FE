@@ -20,12 +20,12 @@ function AddFrom({ projects, projectId, users }: Readonly<{ projects: Project[],
         e.preventDefault();
         const formData = new FormData(e.currentTarget);
         const data = Object.fromEntries(formData) as AddFormType;
-        if(data.project == "0"){
-            toast.error("Please select Project")
-            return;
-        }
         if(data.owner == "0"){
             toast.error("Please select User")
+            return;
+        }
+        if(data.project == "0"){
+            toast.error("Please select Project")
             return;
         }
         const reqData = { ...data, project_id: parseInt(data.project), owner_id: parseInt(data.owner) } as TasksForm;

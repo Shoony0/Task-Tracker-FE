@@ -4,6 +4,7 @@ import axiosInstance from '@/utils/axios';
 import { toast } from "react-toastify";
 import { AxiosError } from "axios";
 import { UserForm } from "@/utils/types";
+import { getErrorMessage } from "@/utils/actions";
 
 
 
@@ -69,7 +70,7 @@ export const useCreateUser = () => {
         },
         onError: (error) => {
             const axiosError = error as AxiosError<any>;
-            toast.error(axiosError?.response?.data?.detail || 'Failed to create user')
+            toast.error(getErrorMessage(axiosError) || 'Failed to create user')
             console.log(error.message)
         },
     });
@@ -93,7 +94,7 @@ export const useUpdateUser = (id: number) => {
         },
         onError: (error) => {
             const axiosError = error as AxiosError<any>;
-            toast.error(axiosError?.response?.data?.detail || 'Failed to update user.')
+            toast.error(getErrorMessage(axiosError) || 'Failed to update user.')
             console.log(error)
         },
     });

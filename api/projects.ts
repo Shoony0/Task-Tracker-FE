@@ -70,7 +70,7 @@ export const useUpdateProject = (id: number) => {
         },
         onError: (error) => {
             const axiosError = error as AxiosError<any>;
-            toast.error(axiosError?.response?.data?.detail || 'Failed to update project.')
+            toast.error(getErrorMessage(axiosError) || 'Failed to update project.')
             console.log(error)
         },
     });
