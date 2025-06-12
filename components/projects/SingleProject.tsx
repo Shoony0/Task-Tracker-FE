@@ -4,8 +4,10 @@ import { setUpdateProject } from '@/store/slices/updateSlice';
 import Link from 'next/link';
 import React from 'react'
 import Loader from '../Loader';
+import { Project, Tasks } from '@/utils/types';
 
-function SingleProject({ id, name, description, start_date, end_date, owner, users, task_set, userRole }) {
+function SingleProject({ project, task_set, userRole }: Readonly<{ project: Project, task_set: Tasks[], userRole: string[] }>) {
+    const { id, name, description, start_date, end_date, owner, users } = project;
     const dispatch = useAppDispatch();
     const { deleteProject, isPending } = useDeleteProject(id);
     if (isPending) return <Loader message='Deleting...' />;
@@ -16,7 +18,7 @@ function SingleProject({ id, name, description, start_date, end_date, owner, use
                 <p className="project-details">{description}</p>
                 <p><strong>Start Date:</strong> {start_date}</p>
                 <p><strong>End Date:</strong> {end_date}</p>
-                <p><strong>No of Tasks:</strong> {task_set.length}</p>
+                <p><strong>No of Tasks:</strong> {task_set?.length | 0}</p>
                 <p className="project-owner">Owner: {owner.first_name} {owner.last_name}</p>
                 <p className="project-owner">
                     Assigned Users:
@@ -34,7 +36,7 @@ function SingleProject({ id, name, description, start_date, end_date, owner, use
                 {
                     ["admin"].some((role) => userRole.includes(role)) &&
                     <><button type='button' className="edit-btn" onClick={() => dispatch(setUpdateProject(id))}>Edit</button>
-                    <button type='button' className="delete-btn" onClick={() => deleteProject()}>Delete</button></>
+                        <button type='button' className="delete-btn" onClick={() => deleteProject()}>Delete</button></>
                 }
             </div>
         </div >

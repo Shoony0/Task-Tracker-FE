@@ -3,12 +3,15 @@ import { useAppDispatch } from '@/store/hooks';
 import { setUpdateUser } from '@/store/slices/updateSlice';
 import React from 'react'
 import Loader from '../Loader';
+import { UserType } from '@/utils/types';
 
-function SingleUser({ user }) {
+
+
+function SingleUser({ user }: Readonly<{user: UserType}>) {
+    const dispatch = useAppDispatch();
     const { email, first_name, last_name, id, roles } = user;
     const { deleteUser, isPending } = useDeleteUser(id);
     if (isPending) return <Loader message='Deleting User...' />;
-    const dispatch = useAppDispatch();
     return (
         <tr key={id}>
             <td>{first_name} {last_name}</td>

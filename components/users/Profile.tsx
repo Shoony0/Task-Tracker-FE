@@ -1,13 +1,7 @@
-import { useUpdateUser } from '@/api/users';
-import Loader from '../Loader';
-import { useAppSelector } from '@/store/hooks';
+import { UserType } from "@/utils/types";
 
-type ProfileType = {
-    first_name: string,
-    last_name: string
-}
-function Profile({ profileData }) {
-    const { id, first_name, last_name, email, roles } = profileData;
+function Profile({ profileData }: Readonly<{ profileData: UserType }>) {
+    const { first_name, last_name, email, roles } = profileData;
     return (
         <section>
             <h2>User Profile</h2>

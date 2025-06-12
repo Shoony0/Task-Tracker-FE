@@ -4,6 +4,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useMutation } from '@tanstack/react-query';
 import axiosInstance from '@/utils/axios';
 import { toast } from "react-toastify";
+import { AxiosError } from "axios";
 
 export type LoginType = {
     email: string;
@@ -23,7 +24,8 @@ export const useLoginUser = () => {
             toast.success('Login Successfully.');
         },
         onError: (error) => {
-            toast.error(error?.response?.data?.detail);
+            const axiosError = error as AxiosError<any>;
+            toast.error(axiosError?.response?.data?.detail);
             console.log(error);
         },
     });
@@ -44,7 +46,8 @@ export const useGetSSOToken = () => {
             queryClient.invalidateQueries({ queryKey: ['sso'] });
         },
         onError: (error) => {
-            toast.error(error?.response?.data?.detail || 'Failed to fetch token')
+            const axiosError = error as AxiosError<any>;
+            toast.error(axiosError?.response?.data?.detail || 'Failed to fetch token')
             console.log(error)
         },
     });

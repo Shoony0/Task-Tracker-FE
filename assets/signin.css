@@ -5,6 +5,11 @@
         background-color: #ecf0f1;
     }
 
+    /* Sections */
+    section {
+        padding: 0  !important;
+    }
+
     .signin-container {
         background: white;
         padding: 2.5rem;

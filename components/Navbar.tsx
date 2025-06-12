@@ -7,15 +7,22 @@ import { setSidebarOpen } from "@/store/slices/sidebarSlice";
 import { useFetchUserProfile } from '@/api/users';
 import Loader from './Loader';
 import { setUserRole } from '@/store/slices/userSlice';
+import { Role } from '@/utils/types';
 
 function Navbar() {
     const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
     const dispatch = useAppDispatch();
     const { data: profileData, isLoading } = useFetchUserProfile();
+
+
+    useEffect(() => {
+        if (profileData) {
+
+            dispatch(setUserRole(profileData.roles.map((user_role: Role) => user_role.name)));
+        }
+    }, [dispatch, profileData])
+
     if (isLoading || !profileData) return <Loader message='Loading profile...' />;
-
-    dispatch(setUserRole(profileData.roles.map((user_role) => user_role.name)));
-
 
 
     const navbar_style = { color: "#c8e6c9", textDecoration: 'none' };

@@ -2,6 +2,8 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useMutation } from '@tanstack/react-query';
 import axiosInstance from '@/utils/axios';
 import { toast } from "react-toastify";
+import { AxiosError } from "axios";
+import { TasksForm, taskUpdateStatus } from "@/utils/types";
 
 
 export const useFetchTasks = (projectId: number | undefined) => {
@@ -37,7 +39,7 @@ export const useCreateTask = () => {
 
     const { mutate: createTask, isPending } = useMutation({
         mutationKey: ["tasks"],
-        mutationFn: async (userData) => {
+        mutationFn: async (userData: TasksForm) => {
             return await axiosInstance.post('/api/tasks/', userData);
         },
         onSuccess: () => {
@@ -45,7 +47,8 @@ export const useCreateTask = () => {
             toast.success('Task Created Successfully.');
         },
         onError: (error) => {
-            toast.error(error?.response?.data?.detail || 'Failed to create task.')
+            const axiosError = error as AxiosError<any>;
+            toast.error(axiosError?.response?.data?.detail || 'Failed to create task.')
             console.log(error)
         },
     });
@@ -58,7 +61,7 @@ export const useUpdateTask = (id: number) => {
 
     const { mutate: updateTask, isPending } = useMutation({
         mutationKey: ["task", id],
-        mutationFn: async (taskData) => {
+        mutationFn: async (taskData: TasksForm | taskUpdateStatus) => {
             return await axiosInstance.patch(`/api/tasks/${id}/`, taskData);
         },
         onSuccess: () => {
@@ -67,7 +70,8 @@ export const useUpdateTask = (id: number) => {
             toast.success('Task updated successfully.');
         },
         onError: (error) => {
-            toast.error(error?.response?.data?.detail || 'Failed to update task.')
+            const axiosError = error as AxiosError<any>;
+            toast.error(axiosError?.response?.data?.detail || 'Failed to update task.')
             console.log(error)
         },
     });

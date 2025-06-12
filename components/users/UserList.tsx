@@ -2,14 +2,15 @@
 import { useFetchUsers } from '@/api/users';
 import SingleUser from './SingleUser';
 import Loader from '../Loader';
+import { UserType } from '@/utils/types';
 
 
 
 function UserList() {
     const { data: users, isLoading, error } = useFetchUsers();
-    
+
     if (isLoading || !users) return <Loader message='Loading User...' />;
-    
+
     if (error) return <p>Error: {error.message}</p>;
     console.log("users")
     console.log(users)
@@ -27,7 +28,7 @@ function UserList() {
                 </thead>
                 <tbody>
                     {
-                        users.map((user) => {
+                        users.map((user: UserType) => {
                             return <SingleUser key={user.id} user={user} />;
                         })
                     }

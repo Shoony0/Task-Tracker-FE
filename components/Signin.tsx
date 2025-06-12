@@ -3,6 +3,9 @@ import React, { FormEvent } from 'react';
 import { useLoginUser } from '@/api/auth';
 import { useRouter } from 'next/navigation';
 import "@/assets/signin.css";
+import Image from 'next/image'
+import { JWTToken, LoginFormData } from '@/utils/types';
+
 
 const Signin = () => {
 
@@ -13,9 +16,10 @@ const Signin = () => {
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
-    const loginData = Object.fromEntries(formData);
+    const loginData  = Object.fromEntries(formData) as LoginFormData;
+
     loginUser(loginData, {
-      onSuccess: ({ data }) => {
+      onSuccess: ({ data }: { data: JWTToken }) => {
         sessionStorage.setItem('token', data.access);
         sessionStorage.setItem('refresh', data.refresh);
         window.location.href = '/projects'; // hard redirect to /project
@@ -39,7 +43,7 @@ const Signin = () => {
       </form>
 
       <button className="google-btn" onClick={handleSSO}>
-        <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google icon" />
+        <Image src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google icon" width={24} height={24} />
         Sign in with Google
       </button>
 

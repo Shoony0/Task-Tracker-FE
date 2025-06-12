@@ -43,7 +43,7 @@ function SSOPage() {
             if (!token) router.replace('/');
             else if (pathname === '/') router.replace('/projects');
         }
-    }, []);
+    }, [getSSOToken, pathname, router, searchParams]);
     if (isPending) return <Loader message='Fetching User Data...' />;
 
 }

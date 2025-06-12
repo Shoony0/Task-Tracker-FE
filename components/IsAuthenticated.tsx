@@ -16,8 +16,9 @@ function IsAuthenticated() {
             window.location.href = '/projects';
         }
 
-    }, []);
-
+    }, [pathname]);
+    
+    return <></>;
 };
 
 export default IsAuthenticated;

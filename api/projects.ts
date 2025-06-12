@@ -2,6 +2,9 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useMutation } from '@tanstack/react-query';
 import axiosInstance from '@/utils/axios';
 import { toast } from "react-toastify";
+import { AxiosError } from "axios";
+import { ProjectForm } from "@/utils/types";
+import { getErrorMessage } from "@/utils/actions";
 
 
 export const useFetchProjects = () => {
@@ -28,12 +31,13 @@ export const useFetchProject = (id: number) => {
     });
 };
 
+
 export const useCreateProject = () => {
     const queryClient = useQueryClient();
 
     const { mutate: createProject, isPending } = useMutation({
         mutationKey: ["projects"],
-        mutationFn: async (userData) => {
+        mutationFn: async (userData: ProjectForm) => {
             return await axiosInstance.post('/api/projects/', userData);
         },
         onSuccess: () => {
@@ -41,7 +45,8 @@ export const useCreateProject = () => {
             toast.success('Project Created Successfully.');
         },
         onError: (error) => {
-            toast.error(error?.response?.data?.detail ||  'Failed to create project')
+            const axiosError = error as AxiosError<any>;
+            toast.error(getErrorMessage(axiosError) ||  'Failed to create project')
             console.log(error)
         },
     });
@@ -55,7 +60,7 @@ export const useUpdateProject = (id: number) => {
 
     const { mutate: updateProject, isPending } = useMutation({
         mutationKey: ["project", id],
-        mutationFn: async (projectData) => {
+        mutationFn: async (projectData: ProjectForm) => {
             return await axiosInstance.patch(`/api/projects/${id}/`, projectData);
         },
         onSuccess: () => {
@@ -64,7 +69,8 @@ export const useUpdateProject = (id: number) => {
             toast.success('Project updated successfully.');
         },
         onError: (error) => {
-            toast.error(error?.response?.data?.detail || 'Failed to update project.')
+            const axiosError = error as AxiosError<any>;
+            toast.error(axiosError?.response?.data?.detail || 'Failed to update project.')
             console.log(error)
         },
     });

@@ -1,16 +1,17 @@
 import { useCreateUser } from '@/api/users';
+import { Role, UserForm } from '@/utils/types';
 import React from 'react'
 
-function AddForm({ roles }) {
+function AddForm({ roles }: Readonly<{roles: Role[]}>) {
     const { createUser, isPending } = useCreateUser();
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const formData = new FormData(e.currentTarget);
         const data = Object.fromEntries(formData);
-        const roles = formData.getAll("roles");
+        const roles = formData.getAll("roles") as string[];
         const role_ids = roles.map((item) => parseInt(item));
-        const newFormData = { ...data, role_ids: role_ids }
+        const newFormData = { ...data, role_ids: role_ids } as UserForm
         createUser(newFormData);
         e.currentTarget.reset();
     }

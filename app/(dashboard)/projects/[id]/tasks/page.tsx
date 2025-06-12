@@ -5,9 +5,11 @@ import { useParams } from 'next/navigation';
 import React from 'react';
 
 const ProjectsTask = () => {
-  const params = useParams();
-  const projectId = params.id;
+  const params = useParams<{ id?: string }>();
+  const projectId = params.id ? parseInt(params.id, 10) : undefined as number | undefined;
   console.log("projectId", projectId);
+
+
   return (
     <main>
       <AddTask projectId={projectId} />

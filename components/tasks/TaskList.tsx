@@ -4,13 +4,11 @@ import React from 'react'
 import SingleTask from './SingleTask';
 import Loader from '../Loader';
 import { useAppSelector } from '@/store/hooks';
+import {  Tasks } from '@/utils/types';
 
 
-type TaskListProps = {
-    projectId?: number | undefined;
-};
-
-function TaskList({ projectId }: TaskListProps) {
+function TaskList({ projectId }: Readonly<{projectId?:number}>) {
+    
     const { userRole } = useAppSelector((state) => state.user);
     const { data: tasks, isLoading } = useFetchTasks(projectId);
     if (isLoading) return <Loader message='Loading Tasks...' />;
@@ -41,7 +39,7 @@ function TaskList({ projectId }: TaskListProps) {
                         <tbody>
                             {
 
-                                tasks.map((task) => {
+                                tasks.map((task: Tasks) => {
                                     return <SingleTask key={task.id} {...task} />
                                 })
 

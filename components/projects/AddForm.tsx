@@ -2,8 +2,11 @@ import { useCreateProject } from '@/api/projects';
 import React from 'react'
 import Loader from '../Loader';
 import { getAccessJWTTokenData } from '@/utils/actions';
+import { UserType, JWTTokenData, ProjectForm } from '@/utils/types';
 
-function AddForm({ users }) {
+
+
+function AddForm({ users }: Readonly<{ users: UserType[] }>) {
     console.log(users);
     const { createProject, isPending } = useCreateProject();
     if (isPending) return <Loader message='Creating...' />;
@@ -11,11 +14,11 @@ function AddForm({ users }) {
         e.preventDefault();
         const formData = new FormData(e.currentTarget);
         const data = Object.fromEntries(formData);
-        const users = formData.getAll('users');
-        const user_ids = users.map((item) => parseInt(item));
+        const users = formData.getAll('users') as string[];
+        const user_ids: number[] = users.map((item) => parseInt(item));
 
-        const tokenData = getAccessJWTTokenData();
-        const reqData = { ...data, owner_id: tokenData.user_id, user_ids: user_ids };
+        const tokenData: JWTTokenData = getAccessJWTTokenData();
+        const reqData = {...data, owner_id: tokenData.user_id, user_ids: user_ids } as ProjectForm;
         console.log("reqData")
         console.log(reqData)
         createProject(reqData);
@@ -31,8 +34,7 @@ function AddForm({ users }) {
                 <input type="date" name="end_date" placeholder="End Date" required />
                 <select name="users" multiple required>
                     {
-                        users &&
-                        users.map((user) => {
+                        users?.map((user) => {
                             return <option key={user.id} value={user.id}>{user.first_name} {user.last_name}</option>;
                         })
                     }

@@ -1,25 +1,17 @@
+import { Project } from "@/utils/types";
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
 
-type ProjectList = {
-    id: number;
-    name: string;
-    description: string;
-    start_date: string;
-    end_date: string;
-    owner: object;
-}
-
 const initialState = {
-    projects: []
+    projects: [] as Project[]
 }
 
 export const sidebarSlice = createSlice({
     name: 'counter',
     initialState: initialState,
     reducers: {
-        setProjectList: (state, action: PayloadAction<[ProjectList]>) => {
+        setProjectList: (state, action: PayloadAction<Project[]>) => {
             state.projects = action.payload;
         }
     }

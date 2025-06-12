@@ -2,6 +2,8 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useMutation } from '@tanstack/react-query';
 import axiosInstance from '@/utils/axios';
 import { toast } from "react-toastify";
+import { AxiosError } from "axios";
+import { UserForm } from "@/utils/types";
 
 
 
@@ -17,7 +19,7 @@ export const useFetchUserProfile = () => {
 };
 
 
-export const useFetchUsers = () => {
+export const useFetchUsers = () =>{
     return useQuery({
         queryKey: ['users'],
         queryFn: async () => {
@@ -58,7 +60,7 @@ export const useCreateUser = () => {
 
     const { mutate: createUser, isPending } = useMutation({
         mutationKey: ["users"],
-        mutationFn: async (userData) => {
+        mutationFn: async (userData: UserForm) => {
             return await axiosInstance.post('/api/users/', userData);
         },
         onSuccess: () => {
@@ -66,7 +68,8 @@ export const useCreateUser = () => {
             toast.success('User Created Successfully.');
         },
         onError: (error) => {
-            toast.error(error?.response?.data?.detail || 'Failed to create user')
+            const axiosError = error as AxiosError<any>;
+            toast.error(axiosError?.response?.data?.detail || 'Failed to create user')
             console.log(error.message)
         },
     });
@@ -79,7 +82,7 @@ export const useUpdateUser = (id: number) => {
 
     const { mutate: updateUser, isPending } = useMutation({
         mutationKey: ["user", id],
-        mutationFn: async (userData) => {
+        mutationFn: async (userData: UserForm) => {
             return await axiosInstance.patch(`/api/users/${id}/`, userData);
         },
         onSuccess: () => {
@@ -89,7 +92,8 @@ export const useUpdateUser = (id: number) => {
             toast.success('User updated successfully.');
         },
         onError: (error) => {
-            toast.error(error?.response?.data?.detail || 'Failed to update user.')
+            const axiosError = error as AxiosError<any>;
+            toast.error(axiosError?.response?.data?.detail || 'Failed to update user.')
             console.log(error)
         },
     });

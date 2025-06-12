@@ -1,16 +1,25 @@
 "use client";
 import { useCreateTask } from '@/api/tasks';
 import { TaskStatusList } from '@/utils/data';
+import { Project, TasksForm, UserType } from '@/utils/types';
 import React from 'react'
 import { toast } from 'react-toastify';
 
-function AddFrom({ projects, projectId, users }) {
+
+type AddFormType = {
+    description: string;
+    due_date: string;
+    status: string;
+    owner: string;
+    project: string;
+}
+function AddFrom({ projects, projectId, users }: Readonly<{ projects: Project[], projectId: number | undefined, users: UserType[] }>) {
     const { createTask, isPending } = useCreateTask();
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const formData = new FormData(e.currentTarget);
-        const data = Object.fromEntries(formData);
+        const data = Object.fromEntries(formData) as AddFormType;
         if(data.project == "0"){
             toast.error("Please select Project")
             return;
@@ -19,7 +28,7 @@ function AddFrom({ projects, projectId, users }) {
             toast.error("Please select User")
             return;
         }
-        const reqData = { ...data, project_id: parseInt(data.project), owner_id: parseInt(data.owner) };
+        const reqData = { ...data, project_id: parseInt(data.project), owner_id: parseInt(data.owner) } as TasksForm;
         console.log(reqData)
         createTask(reqData);
         e.currentTarget.reset();
@@ -40,21 +49,19 @@ function AddFrom({ projects, projectId, users }) {
                 <select name="owner" required>
                     <option value={0}>Select User</option>
                     {
-                        users &&
-                        users.map((user) => {
+                        users?.map((user) => {
                             return <option key={user.id} value={user.id}>{user.first_name} {user.last_name}</option>;
                         })
                     }
 
                 </select>
-                <select name='project' defaultValue={projectId} disabled={projectId}>
+                <select name='project' defaultValue={projectId} disabled={projectId !== undefined}>
                     {
                         !projectId &&
                         <option value={0}>Select Project</option>
                     }
                     {
-                        projects &&
-                        projects.map((item) => {
+                        projects?.map((item) => {
                             return <option key={item.id} value={item.id}>{item.name}</option>;
                         })
                     }

@@ -6,7 +6,9 @@ import UpdateFrom from './UpdateForm';
 import { useFetchUsers } from '@/api/users';
 import Loader from '../Loader';
 
-function AddTask({ projectId }) {
+
+
+function AddTask({ projectId }: Readonly<{ projectId?: number }>) {
     const { userRole } = useAppSelector((state) => state.user);
     const { taskId } = useAppSelector((state) => state.editData);
     const { projects } = useAppSelector((state) => state.project);

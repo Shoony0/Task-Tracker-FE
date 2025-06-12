@@ -6,7 +6,7 @@ import { useAppDispatch } from "@/store/hooks";
 import { setActivePage } from "@/store/slices/sidebarSlice";
 import { SidebarLinksList as links } from '@/utils/data';
 
-function SidebarLinks({ params, userRole }) {
+function SidebarLinks({ params, userRole }: Readonly<{ params: string, userRole: string[] }>) {
     const dispatch = useAppDispatch();
     return (
         <>

@@ -12,13 +12,13 @@ export const updateSlice = createSlice({
     name: 'editData',
     initialState: initialState,
     reducers: {
-        setUpdateProject: (state, action: PayloadAction<[number]>) => {
+        setUpdateProject: (state, action: PayloadAction<number>) => {
             state.projectId = action.payload;
         },
-        setUpdateTask: (state, action: PayloadAction<[number]>) => {
+        setUpdateTask: (state, action: PayloadAction<number>) => {
             state.taskId = action.payload;
         },
-        setUpdateUser: (state, action: PayloadAction<[number]>) => {
+        setUpdateUser: (state, action: PayloadAction<number>) => {
             state.userId = action.payload;
         },
     }

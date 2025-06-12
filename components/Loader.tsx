@@ -1,6 +1,6 @@
 import React from 'react'
 
-function Loader({ message }: { message: string }) {
+function Loader({ message }: Readonly<{ message: string }>) {
     return (
         <div className="loader-overlay" id="loader">
             <div className="loader-content">

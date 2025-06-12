@@ -4,19 +4,21 @@ import { setUpdateTask } from '@/store/slices/updateSlice';
 import { TaskStatusList } from '@/utils/data';
 import React, { useState } from 'react'
 import Loader from '../Loader';
+import { Tasks, taskUpdateStatus } from '@/utils/types';
 
-function SingleTask({ id, description, due_date, status, owner, project, creator }) {
-    const [taskId, setTaskId] = useState(0);
+function SingleTask({ id, description, due_date, status, owner, project, creator }: Readonly<Tasks>) {
+    const [taskId, setTaskId] = useState<number>(0);
     const dispatch = useAppDispatch();
     const { deleteTask, isPending } = useDeleteTask(id);
     const { updateTask, isPending: updatePending } = useUpdateTask(id);
     if (isPending) <Loader message='Deleting...' />;
     if (updatePending) <Loader message='Updating...' />;
 
-    const updateStatus = (status) => {
+    const updateStatus = (status: string) => {
         setTaskId(taskId);
         console.log(status);
-        const update_data = {
+        
+        const update_data: taskUpdateStatus = {
             status: status,
         }
         updateTask(update_data);
@@ -44,7 +46,7 @@ function SingleTask({ id, description, due_date, status, owner, project, creator
                     <button type="button" className='edit-btn' onClick={() => dispatch(setUpdateTask(id))}>Edit</button>
                     <button type="button" className='delete-btn' onClick={() => deleteTask()}>Delete</button>
                 </td>
-            
+
             }
         </tr >
     );

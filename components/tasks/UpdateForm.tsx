@@ -4,10 +4,16 @@ import { useAppDispatch } from '@/store/hooks';
 import { setUpdateTask } from '@/store/slices/updateSlice';
 import { TaskStatusList } from '@/utils/data';
 import Loader from '../Loader';
+import { TasksForm, UserType } from '@/utils/types';
 
+type UpdateFromType = {
+    description: string;
+    due_date: string;
+    owner: string;
 
+}
 
-function UpdateFrom({ taskId, users}) {
+function UpdateFrom({ taskId, users }: Readonly<{ taskId: number, users: UserType[] }>) {
     const dispatch = useAppDispatch();
 
     const { data: task, isLoading } = useFetchTask(taskId);
@@ -23,9 +29,8 @@ function UpdateFrom({ taskId, users}) {
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const formData = new FormData(e.currentTarget);
-        const data = Object.fromEntries(formData);
-        const reqData = { ...data, owner_id:parseInt(data.owner) };
-        console.log("reqData")
+        const data = Object.fromEntries(formData) as UpdateFromType;
+        const reqData = { ...data, owner_id: parseInt(data.owner) } as TasksForm;
         console.log("reqData")
         console.log(reqData)
         updateTask(reqData);
@@ -49,8 +54,7 @@ function UpdateFrom({ taskId, users}) {
                 <select name="owner" defaultValue={owner.id} required>
                     <option value={0}>Select User</option>
                     {
-                        users &&
-                        users.map((user) => {
+                        users?.map((user) => {
                             return <option key={user.id} value={user.id}>{user.first_name} {user.last_name}</option>;
                         })
                     }
