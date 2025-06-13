@@ -3,16 +3,23 @@ import { Role, UserForm } from '@/utils/types';
 import React from 'react'
 
 function AddForm({ roles }: Readonly<{roles: Role[]}>) {
+    // Custom hook for creating a user via API
     const { createUser, isPending } = useCreateUser();
 
+    // Handle form submission for creating a new user
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
+        e.preventDefault();  // Prevent default form submission behavior
+        // Extract form data
         const formData = new FormData(e.currentTarget);
         const data = Object.fromEntries(formData);
+        // Extract selected roles from form data (multi-select)
         const roles = formData.getAll("roles") as string[];
         const role_ids = roles.map((item) => parseInt(item));
-        const newFormData = { ...data, role_ids: role_ids } as UserForm
+        // Prepare data payload matching backend API schema
+        const newFormData = { ...data, role_ids: role_ids } as UserForm;
+        // Trigger mutation to create user
         createUser(newFormData);
+        // Reset form after submission
         e.currentTarget.reset();
     }
 

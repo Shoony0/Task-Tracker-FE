@@ -6,25 +6,33 @@ import SingleProject from './SingleProject';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { setProjectList } from '@/store/slices/projectSlice';
 import { Project } from '@/utils/types';
+import Loader from '../Loader';
 
 function ProjectList() {
+    // Get user roles from Redux 
     const { userRole } = useAppSelector((state) => state.user);
-    const { data: projects } = useFetchProjects()
+    // Fetch projects using React Query
+    const { data: projects, isLoading } = useFetchProjects();
 
-    // saving project list into state
+    // Redux dispatcher to store fetched projects globally
     const dispatch = useAppDispatch();
-    useEffect(()=>{
-        dispatch(setProjectList(projects))
-    });
 
-    console.log(projects)
+    // On data change, store projects in Redux state
+    useEffect(() => {
+        dispatch(setProjectList(projects))
+    }, [projects, dispatch]);
+
+    // Show loader while data is being fetched
+    if (isLoading || !projects) {
+        return <Loader message='Loading Projects...' />;
+    }
     return (
         <section>
             <h2>Project List</h2>
             <div className="projects-grid">
 
                 {
-                    projects && projects.length !== 0  ?
+                    projects && projects.length !== 0 ?
                         projects.map((project: Project) => {
                             return <SingleProject key={project.id} project={project} userRole={userRole} task_set={projects.task_set} />;
                         }) :

@@ -4,16 +4,27 @@ import React from 'react'
 import SingleTask from './SingleTask';
 import Loader from '../Loader';
 import { useAppSelector } from '@/store/hooks';
-import {  Tasks } from '@/utils/types';
+import { Tasks } from '@/utils/types';
 
 
-function TaskList({ projectId }: Readonly<{projectId?:number}>) {
-    
+function TaskList({ projectId }: Readonly<{ projectId?: number }>) {
+    /**
+     * TaskList Component
+     * 
+     * - Fetches and displays a list of tasks.
+     * - Supports both project-specific and global task fetching.
+     * - Displays loader while data is being fetched.
+     * 
+     * @param projectId - (optional) ID of the project to fetch tasks for.
+     */
+
+    // Get user role from Redux store
     const { userRole } = useAppSelector((state) => state.user);
+    // Fetch tasks using custom hook, supports optional projectId filter
     const { data: tasks, isLoading } = useFetchTasks(projectId);
+    // Show loader while fetching tasks
     if (isLoading) return <Loader message='Loading Tasks...' />;
-    console.log("tasks")
-    console.log(tasks)
+
     return (
         <section>
             <h2>Task List</h2>
@@ -31,7 +42,7 @@ function TaskList({ projectId }: Readonly<{projectId?:number}>) {
                                 <th>Project</th>
                                 <th>Status</th>
                                 {
-                                    ["admin", "task_creator"].some((role) => userRole.includes(role))  &&
+                                    ["admin", "task_creator"].some((role) => userRole.includes(role)) &&
                                     <th>Action</th>
                                 }
                             </tr>

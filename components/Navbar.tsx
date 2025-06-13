@@ -10,11 +10,12 @@ import { setUserRole } from '@/store/slices/userSlice';
 import { Role } from '@/utils/types';
 
 function Navbar() {
+    // State to handle profile dropdown visibility
     const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
     const dispatch = useAppDispatch();
     const { data: profileData, isLoading } = useFetchUserProfile();
 
-
+    // Set user roles to redux store when profile data is loaded
     useEffect(() => {
         if (profileData) {
 
@@ -22,6 +23,7 @@ function Navbar() {
         }
     }, [dispatch, profileData])
 
+    // Show loader while fetching profile
     if (isLoading || !profileData) return <Loader message='Loading profile...' />;
 
 

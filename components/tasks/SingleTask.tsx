@@ -9,12 +9,20 @@ import { Tasks, taskUpdateStatus } from '@/utils/types';
 function SingleTask({ id, description, due_date, status, owner, project, creator }: Readonly<Tasks>) {
     const [taskId, setTaskId] = useState<number>(0);
     const dispatch = useAppDispatch();
+    // Hook for deleting task
     const { deleteTask, isPending } = useDeleteTask(id);
+    // Hook for updating task
     const { updateTask, isPending: updatePending } = useUpdateTask(id);
+    // Show loading while deleting
     if (isPending) <Loader message='Deleting...' />;
+    // Show loading while updating
     if (updatePending) <Loader message='Updating...' />;
 
     const updateStatus = (status: string) => {
+        /**
+         * Handles task status update.
+         * @param status - New status string to update the task.
+         */
         setTaskId(taskId);
         console.log(status);
         
@@ -23,6 +31,8 @@ function SingleTask({ id, description, due_date, status, owner, project, creator
         }
         updateTask(update_data);
     };
+    
+    // Get current user's role from Redux state
     const { userRole } = useAppSelector((state) => state.user);
     return (
         <tr>

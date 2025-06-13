@@ -9,13 +9,21 @@ import Loader from '../Loader';
 
 
 function AddProject() {
+    // Get current user role from Redux store
     const { userRole } = useAppSelector((state) => state.user);
+    // Get projectId to determine Add or Edit mode
     const { projectId } = useAppSelector((state) => state.editData)
+    // Fetch all users for form options
     const { data: users, isLoading } = useFetchUsers();
+
+    // Show loader while users are loading
     if(isLoading || !users) return <Loader message='Loading Users...' />;
+
+    // If projectId exists, render update form
     if(projectId !==0 ){
         return <UpdateForm projectId={projectId} users={users} />
     }else{
+        // If admin, render add form
         if(["admin"].some((role) => userRole.includes(role))){
 
             return <AddForm users={users} />

@@ -7,13 +7,15 @@ import { UserType } from '@/utils/types';
 
 
 function UserList() {
+    // Fetch users data using custom hook
     const { data: users, isLoading, error } = useFetchUsers();
 
+    // Show loader while data is being fetched
     if (isLoading || !users) return <Loader message='Loading User...' />;
 
+    // Display error message if fetching fails
     if (error) return <p>Error: {error.message}</p>;
-    console.log("users")
-    console.log(users)
+
     return (
         <section>
             <h2>User List</h2>

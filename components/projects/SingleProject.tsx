@@ -7,9 +7,12 @@ import Loader from '../Loader';
 import { Project, Tasks } from '@/utils/types';
 
 function SingleProject({ project, task_set, userRole }: Readonly<{ project: Project, task_set: Tasks[], userRole: string[] }>) {
+    // Destructure project fields
     const { id, name, description, start_date, end_date, owner, users } = project;
     const dispatch = useAppDispatch();
+    // Delete mutation hook
     const { deleteProject, isPending } = useDeleteProject(id);
+    // Show loader while deleting
     if (isPending) return <Loader message='Deleting...' />;
     return (
         <div className="project-card">

@@ -6,6 +6,7 @@ import React from 'react'
 import { toast } from 'react-toastify';
 
 
+
 type AddFormType = {
     description: string;
     due_date: string;
@@ -13,6 +14,12 @@ type AddFormType = {
     owner: string;
     project: string;
 }
+/**
+ * AddForm Component
+ * 
+ * - Form for creating new tasks.
+ * - Handles basic validation and submits form data.
+ */
 function AddFrom({ projects, projectId, users }: Readonly<{ projects: Project[], projectId: number | undefined, users: UserType[] }>) {
     const { createTask, isPending } = useCreateTask();
 
@@ -20,16 +27,19 @@ function AddFrom({ projects, projectId, users }: Readonly<{ projects: Project[],
         e.preventDefault();
         const formData = new FormData(e.currentTarget);
         const data = Object.fromEntries(formData) as AddFormType;
+        // Validation for owner
         if(data.owner == "0"){
             toast.error("Please select User")
             return;
         }
+        // Validation for project
         if(data.project == "0"){
             toast.error("Please select Project")
             return;
         }
+        // Prepare request payload
         const reqData = { ...data, project_id: parseInt(data.project), owner_id: parseInt(data.owner) } as TasksForm;
-        console.log(reqData)
+     
         createTask(reqData);
         e.currentTarget.reset();
     }

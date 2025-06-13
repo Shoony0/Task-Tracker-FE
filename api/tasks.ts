@@ -8,6 +8,15 @@ import { getErrorMessage } from "@/utils/actions";
 
 
 export const useFetchTasks = (projectId: number | undefined) => {
+    /**
+     * Hook to fetch tasks.
+     * 
+     * - If projectId is provided, fetches tasks for that specific project.
+     * - If projectId is undefined, fetches all tasks.
+     * 
+     * @param projectId - Optional project ID to filter tasks.
+     * @returns React Query object containing data, loading, error, and refetch states.
+     */
     return useQuery({
         queryKey: ['tasks', projectId],
         queryFn: async () => {
@@ -24,6 +33,12 @@ export const useFetchTasks = (projectId: number | undefined) => {
 };
 
 export const useFetchTask = (id: number) => {
+    /**
+     * Hook to fetch a single task by ID.
+     * 
+     * @param id - Task ID to fetch.
+     * @returns React Query object containing data, loading, error, and refetch states.
+     */
     return useQuery({
         queryKey: ['task', id],
         queryFn: async ({ queryKey }) => {
@@ -36,6 +51,20 @@ export const useFetchTask = (id: number) => {
 };
 
 export const useCreateTask = () => {
+    /**
+     * Hook to create a new task.
+     * 
+     * - Sends task creation data to the backend.
+     * - Invalidates the tasks query to refresh the list.
+     * - Handles success and error notifications.
+     * 
+     * @returns Object with:
+     *  - createTask: function to trigger the mutation
+     *  - isPending: mutation loading state
+     *  - isSuccess: whether mutation succeeded
+     *  - isError: whether mutation failed
+     *  - error: error object if mutation failed
+     */
     const queryClient = useQueryClient();
 
     const { mutate: createTask, isPending } = useMutation({
@@ -58,6 +87,18 @@ export const useCreateTask = () => {
 };
 
 export const useUpdateTask = (id: number) => {
+    /**
+     * Hook to update a task by ID.
+     * 
+     * - Sends updated task data to the backend.
+     * - Invalidates both task detail and task list queries on success.
+     * - Handles success and error notifications.
+     * 
+     * @param id - The ID of the task to update.
+     * @returns Object with:
+     *  - updateTask: function to trigger the update
+     *  - isPending, isSuccess, isError, error: mutation state values
+     */
     const queryClient = useQueryClient();
 
     const { mutate: updateTask, isPending } = useMutation({
@@ -81,6 +122,18 @@ export const useUpdateTask = (id: number) => {
 };
 
 export const useDeleteTask = (id: number) => {
+    /**
+     * Hook to delete a task by ID.
+     * 
+     * - Sends delete request to the backend.
+     * - Invalidates the tasks query to refresh task list.
+     * - Handles success and error notifications.
+     * 
+     * @param id - Task ID to delete.
+     * @returns Object with:
+     *  - deleteTask: function to trigger deletion
+     *  - isPending, isSuccess, isError, error: mutation state values
+     */
     const queryClient = useQueryClient();
 
     const { mutate: deleteTask, isPending } = useMutation({

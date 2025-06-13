@@ -9,6 +9,7 @@ import { ProjectForm, UserType } from '@/utils/types';
 function UpdateForm({ projectId, users }: Readonly<{projectId: number, users: UserType[] }>) {
     const dispatch = useAppDispatch();
 
+    // Fetch existing project data
     const { data: project, isLoading } = useFetchProject(projectId);
     const { updateProject, isPending } = useUpdateProject(projectId);
 
@@ -21,13 +22,17 @@ function UpdateForm({ projectId, users }: Readonly<{projectId: number, users: Us
         e.preventDefault();
         const formData = new FormData(e.currentTarget);
         const data = Object.fromEntries(formData);
+        // Get token for owner_id
         const tokenData = getAccessJWTTokenData();
+        // Extract selected users
         const users = formData.getAll('users') as string[];
 
         const user_ids = users.map((item) => parseInt(item));
         const reqData = { ...data, owner_id: tokenData.user_id, user_ids: user_ids } as ProjectForm;
+        
         updateProject(reqData);
-
+        
+        // Reset update state after submission
         dispatch(setUpdateProject(0));
         e.currentTarget.reset();
     }

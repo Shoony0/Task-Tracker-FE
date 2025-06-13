@@ -14,12 +14,19 @@ const Signin = () => {
 
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+     /**
+     * Handles form submission for normal login.
+     * Converts form data to object and triggers login mutation.
+     */
     e.preventDefault();
+     // Extract form data
     const formData = new FormData(e.currentTarget);
     const loginData  = Object.fromEntries(formData) as LoginFormData;
-
+    
+    // Call login mutation
     loginUser(loginData, {
       onSuccess: ({ data }: { data: JWTToken }) => {
+        // Store tokens in sessionStorage
         sessionStorage.setItem('token', data.access);
         sessionStorage.setItem('refresh', data.refresh);
         window.location.href = '/projects'; // hard redirect to /project
@@ -27,6 +34,7 @@ const Signin = () => {
     });
   };
 
+  // Handles SSO login by redirecting user to Google login endpoint.
   const handleSSO = () => {
     router.push(`${process.env.NEXT_PUBLIC_BASE_URL}api/auth/google/login/`);
   };

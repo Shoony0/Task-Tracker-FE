@@ -9,6 +9,14 @@ import { getErrorMessage } from "@/utils/actions";
 
 
 export const useFetchUserProfile = () => {
+    /**
+     * Hook to fetch current user's profile.
+     * 
+     * - Fetches user profile data from `/api/users/me/`.
+     * - Uses React Query for caching and state management.
+     * 
+     * @returns React Query object containing data, loading, error, and refetch states.
+     */
     return useQuery({
         queryKey: ['user-profile'],
         queryFn: async () => {
@@ -20,7 +28,15 @@ export const useFetchUserProfile = () => {
 };
 
 
-export const useFetchUsers = () =>{
+export const useFetchUsers = () => {
+    /**
+     * Hook to fetch all users.
+     * 
+     * - Fetches list of users from `/api/users/`.
+     * - Uses React Query for caching and state management.
+     * 
+     * @returns React Query object containing data, loading, error, and refetch states.
+     */
     return useQuery({
         queryKey: ['users'],
         queryFn: async () => {
@@ -32,8 +48,16 @@ export const useFetchUsers = () =>{
 };
 
 export const useFetchUser = (id: number) => {
+    /**
+     * Hook to fetch all users.
+     * 
+     * - Fetches list of users from `/api/users/`.
+     * - Uses React Query for caching and state management.
+     * 
+     * @returns React Query object containing data, loading, error, and refetch states.
+     */
     return useQuery({
-        queryKey: ['task', id],
+        queryKey: ['user', id],
         queryFn: async ({ queryKey }) => {
             const [_key, userId] = queryKey;
             const response = await axiosInstance.get(`/api/users/${userId}/`);
@@ -44,6 +68,15 @@ export const useFetchUser = (id: number) => {
 };
 
 export const useFetchUsersRole = () => {
+    /**
+     * Hook to fetch all user roles.
+     * 
+     * - Fetches role data from `/api/roles/`.
+     * - Uses React Query for caching and state management.
+     * 
+     * @returns React Query object containing data, loading, error, and refetch states.
+     */
+
     return useQuery({
         queryKey: ['usersRoles'],
         queryFn: async () => {
@@ -57,6 +90,17 @@ export const useFetchUsersRole = () => {
 };
 
 export const useCreateUser = () => {
+    /**
+     * Hook to create a new user.
+     * 
+     * - Sends user creation data to the backend.
+     * - Invalidates the users query to refresh the list.
+     * - Handles success and error notifications.
+     * 
+     * @returns Object with:
+     *  - createUser: function to trigger the mutation
+     *  - isPending, isSuccess, isError, error: mutation state values
+     */
     const queryClient = useQueryClient();
 
     const { mutate: createUser, isPending } = useMutation({
@@ -79,6 +123,18 @@ export const useCreateUser = () => {
 };
 
 export const useUpdateUser = (id: number) => {
+    /**
+     * Hook to update user by ID.
+     * 
+     * - Sends update data to `/api/users/{id}/`.
+     * - Invalidates user profile, single user, and users list on success.
+     * - Handles success and error notifications.
+     * 
+     * @param id - User ID to update.
+     * @returns Object with:
+     *  - updateUser: function to trigger the mutation
+     *  - isPending, isSuccess, isError, error: mutation state values
+     */
     const queryClient = useQueryClient();
 
     const { mutate: updateUser, isPending } = useMutation({
@@ -104,6 +160,18 @@ export const useUpdateUser = (id: number) => {
 
 
 export const useDeleteUser = (id: number) => {
+    /**
+     * Hook to delete a user by ID.
+     * 
+     * - Sends DELETE request to `/api/users/{id}/`.
+     * - Invalidates users list on success.
+     * - Handles success and error notifications.
+     * 
+     * @param id - User ID to delete.
+     * @returns Object with:
+     *  - deleteUser: function to trigger the mutation
+     *  - isPending, isSuccess, isError, error: mutation state values
+     */
     const queryClient = useQueryClient();
 
     const { mutate: deleteUser, isPending } = useMutation({

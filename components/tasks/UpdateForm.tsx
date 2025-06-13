@@ -14,25 +14,36 @@ type UpdateFromType = {
 }
 
 function UpdateFrom({ taskId, users }: Readonly<{ taskId: number, users: UserType[] }>) {
+    /**
+     * UpdateFrom Component
+     * 
+     * - Used to update an existing Task.
+     * - Fetches the task details based on taskId.
+     * - Submits updated task data.
+     * 
+     * @param taskId - ID of the task to be updated.
+     * @param users - List of available users to select the owner.
+     */
     const dispatch = useAppDispatch();
 
+    // Fetch existing task data by taskId
     const { data: task, isLoading } = useFetchTask(taskId);
+    // Hook for updating the task
     const { updateTask, isPending } = useUpdateTask(taskId);
 
+    // Show loader while data is being fetched or updated
     if (isLoading || !task) return <Loader message='Loading Task...' />;
     if (isPending) return <Loader message='Updating Task...' />;
 
     const { description, due_date, status, owner } = task;
-    console.log("task")
-    console.log(task)
 
+    // Handle form submit to update task
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const formData = new FormData(e.currentTarget);
         const data = Object.fromEntries(formData) as UpdateFromType;
+        // Prepare request data
         const reqData = { ...data, owner_id: parseInt(data.owner) } as TasksForm;
-        console.log("reqData")
-        console.log(reqData)
         updateTask(reqData);
         e.currentTarget.reset();
         dispatch(setUpdateTask(0));

@@ -3,7 +3,6 @@ import "@/assets/error.css";
 import Link from 'next/link';
 
 const ErrorHandler = ({ error }: {error: Error}) => {
-  console.log(error);
   return (
 
     <html lang="en">

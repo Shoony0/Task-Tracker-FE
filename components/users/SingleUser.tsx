@@ -8,9 +8,14 @@ import { UserType } from '@/utils/types';
 
 
 function SingleUser({ user }: Readonly<{user: UserType}>) {
-    const dispatch = useAppDispatch();
+    const dispatch = useAppDispatch(); // Redux dispatch hook
+
+    // Destructure user data
     const { email, first_name, last_name, id, roles } = user;
+    // Get the deleteUser mutation hook for deleting the user
     const { deleteUser, isPending } = useDeleteUser(id);
+
+    // Show loading indicator while deletion is in progress
     if (isPending) return <Loader message='Deleting User...' />;
     return (
         <tr key={id}>

@@ -1,12 +1,16 @@
 'use client';
+import Loader from '@/components/Loader';
 import { clearSession } from '@/utils/actions';
 import { useEffect } from 'react';
 
 export default function LogoutPage() {
 
+  // useEffect runs once on component mount
   useEffect(() => {
+    // Clear session and redirect to login
     clearSession(true);
   }, []);
 
-  return <p>Logging out...</p>;
+  // Show loader while logout process happens
+  return <Loader message='Logging out...' />
 }

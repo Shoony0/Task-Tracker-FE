@@ -1,6 +1,7 @@
 import { UserType } from "@/utils/types";
 
 function Profile({ profileData }: Readonly<{ profileData: UserType }>) {
+    // Destructure user details from the profileData prop
     const { first_name, last_name, email, roles } = profileData;
     return (
         <section>

@@ -2,6 +2,11 @@ import axios from 'axios';
 import { clearSession } from './actions';
 
 
+
+
+/**
+ * Axios instance configured for your backend API.
+ */
 const axiosInstance = axios.create({
   baseURL: process.env.NEXT_PUBLIC_BASE_URL,
   timeout: 10000,
@@ -10,7 +15,11 @@ const axiosInstance = axios.create({
   },
 });
 
-// Optional: Add interceptors for auth, logging, etc.
+
+
+/**
+ * Request Interceptor: Attach Authorization header if token exists.
+ */
 axiosInstance.interceptors.request.use((config) => {
   const token = sessionStorage.getItem('token');
   if (token) {
@@ -22,6 +31,9 @@ axiosInstance.interceptors.request.use((config) => {
 export default axiosInstance;
 
 
+/**
+ * Response Interceptor: Handle global response errors.
+ */
 axiosInstance.interceptors.response.use(
   (response) => response,
   (error) => {
