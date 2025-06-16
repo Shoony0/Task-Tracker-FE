@@ -1,5 +1,6 @@
-import axios from 'axios';
-import { clearSession } from './actions';
+import axios, { AxiosError } from 'axios';
+import { clearSession, getErrorMessage } from './actions';
+import { toast } from 'react-toastify';
 
 
 
@@ -46,6 +47,11 @@ axiosInstance.interceptors.response.use(
 
       }
       clearSession(redirect_page);
+    }
+    if (error.response?.status === 429) {
+      const axiosError = error as AxiosError<any>;
+      // Show error toast with parsed error message.
+      toast.error(getErrorMessage(axiosError));
     }
 
     return Promise.reject(error);
