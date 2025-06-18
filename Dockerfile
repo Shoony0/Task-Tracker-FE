@@ -4,6 +4,7 @@ FROM node:20-alpine AS builder
 # Set working directory
 WORKDIR /app
 
+
 # Install dependencies
 COPY package.json package-lock.json ./
 RUN npm ci
@@ -30,8 +31,14 @@ RUN npm ci --only=production
 # Copy built app from builder stage
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/.next ./.next
+COPY --from=builder /app/next.config.ts ./
+COPY --from=builder /app/tsconfig.json ./
+COPY --from=builder /app/package.json ./
 COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/package.json ./package.json
+
+
+# Set environment to production
+ENV NODE_ENV=production
 
 # Expose port (default Next.js port)
 EXPOSE 3000
