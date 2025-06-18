@@ -35,8 +35,8 @@ function Navbar() {
             <div className="profile-icon" onClick={() => setIsProfileDropdownOpen(!isProfileDropdownOpen)}>{profileData.first_name.charAt(0)}{profileData.last_name.charAt(0)}</div>
             <div className={isProfileDropdownOpen ? "profile-dropdown active" : "profile-dropdown"} id="profileDropdown">
                 <ul>
-                    <li><Link href='/profile/me' style={navbar_style}>Profile</Link></li>
-                    <li><Link href='/logout' style={navbar_style}>Logout</Link></li>
+                    <Link href='/profile/me' style={navbar_style}><li>Profile</li></Link>
+                    <Link href='/logout' style={navbar_style}><li>Logout</li></Link>
                 </ul>
             </div>
         </header>

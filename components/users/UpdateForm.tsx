@@ -44,24 +44,47 @@ function UpdateForm({ roles, userId }: Readonly<{ roles: Role[], userId: number 
         dispatch(setUpdateUser(0));
     }
 
-    return (
-        <section>
-            <h2>Update User</h2>
-            <form onSubmit={handleSubmit}>
-                <input type="text" name="first_name" placeholder="First Name" defaultValue={first_name} required />
-                <input type="text" name="last_name" placeholder="Last Name" defaultValue={last_name} required />
-                <input type="email" name='email' placeholder="Email Address" defaultValue={email} required />
-                <input type="password" name="password" placeholder="Password" />
-                <select name="roles" required defaultValue={userRoles.map((item) => String(item.id))} multiple>
-                    {
-                        roles.map((role) => {
-                            return <option key={role.id} value={role.id}>{role.name}</option>;
-                        })
-                    }
+    const cancelUpdate = () => {
+        // Reset update state in redux store
+        dispatch(setUpdateUser(0));
+    }
 
-                </select>
-                <button type="submit" disabled={isPending}>{isPending ? 'Updating...' : 'Update User'}</button>
-            </form>
+    return (
+        <section className='form-container'>
+            <div className='form-box'>
+                <h2>Update User</h2>
+                <form onSubmit={handleSubmit} className='form-layout'>
+                    <div className="form-row">
+                        <label htmlFor='first_name'>First Name</label>
+                        <input type="text" name="first_name" id="first_name" placeholder="First Name" defaultValue={first_name} required />
+                    </div>
+                    <div className="form-row">
+                        <label htmlFor='last_name'>Last Name</label>
+                        <input type="text" name="last_name" id='last_name' placeholder="Last Name" defaultValue={last_name} required />
+                    </div>
+                    <div className="form-row">
+                        <label htmlFor='email'>Email</label>
+                        <input type="email" name='email' id="email" placeholder="Email Address" defaultValue={email} required />
+                    </div>
+                    <div className="form-row">
+                        <label htmlFor='password'>Password</label>
+                        <input type="password" name="password" id='password' placeholder="Password" />
+                    </div>
+                    <div className="form-row">
+                        <label htmlFor='roles'>Roles</label>
+                        <select name="roles" id="roles" required defaultValue={userRoles.map((item) => String(item.id))} multiple>
+                            {
+                                roles.map((role) => {
+                                    return <option key={role.id} value={role.id}>{role.name}</option>;
+                                })
+                            }
+
+                        </select>
+                    </div>
+                    <button type="submit" disabled={isPending}>{isPending ? 'Updating...' : 'Update User'}</button>
+                    <button type="button" onClick={cancelUpdate}>Cancel</button>
+                </form>
+            </div>
         </section>
     );
 };

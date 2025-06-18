@@ -49,30 +49,50 @@ function UpdateFrom({ taskId, users }: Readonly<{ taskId: number, users: UserTyp
         dispatch(setUpdateTask(0));
     }
 
-    return (
-        <section>
-            <h2>Update Task</h2>
-            <form onSubmit={handleSubmit}>
-                <input type="task" name="description" placeholder="Task Description" defaultValue={description} required />
-                <input type="date" name="due_date" placeholder="Due Date" defaultValue={due_date} required />
-                <select name='status' defaultValue={status} required>
-                    {
-                        TaskStatusList.map((item) => {
-                            return <option key={item.id} value={item.id}>{item.name}</option>;
-                        })
-                    }
-                </select>
-                <select name="owner" defaultValue={owner.id} required>
-                    <option value={0}>Select User</option>
-                    {
-                        users?.map((user) => {
-                            return <option key={user.id} value={user.id}>{user.first_name} {user.last_name}</option>;
-                        })
-                    }
+    const cancelUpdate = () => {
+        // Reset update state in redux store
+        dispatch(setUpdateTask(0));
+    }
 
-                </select>
-                <button type="submit" disabled={isPending}>{isPending ? 'Updating...' : 'Update Task'}</button>
-            </form>
+    return (
+        <section className='form-container'>
+            <div className='form-box'>
+                <h2>Update Task</h2>
+                <form onSubmit={handleSubmit} className="form-layout">
+                    <div className="form-row">
+                        <label htmlFor='description'>Description</label>
+                        <textarea name="description" id='description' placeholder="Task Description" defaultValue={description} required></textarea>
+                    </div>
+                    <div className="form-row">
+                        <label htmlFor='due_date'>Due Date</label>
+                        <input type="date" name="due_date" id='due_date' placeholder="Due Date" defaultValue={due_date} required />
+                    </div>
+                    <div className="form-row">
+                        <label htmlFor='status'>Status</label>
+                        <select name='status' id='status' defaultValue={status} required>
+                            {
+                                TaskStatusList.map((item) => {
+                                    return <option key={item.id} value={item.id}>{item.name}</option>;
+                                })
+                            }
+                        </select>
+                    </div>
+                    <div className="form-row">
+                        <label htmlFor='owner'>Assigned User</label>
+                        <select name="owner" id='owner' defaultValue={owner.id} required>
+                            <option value={0}>Select User</option>
+                            {
+                                users?.map((user) => {
+                                    return <option key={user.id} value={user.id}>{user.first_name} {user.last_name}</option>;
+                                })
+                            }
+
+                        </select>
+                    </div>
+                    <button type="submit" disabled={isPending}>{isPending ? 'Updating...' : 'Update Task'}</button>
+                    <button type="button" onClick={cancelUpdate}>Cancel</button>
+                </form>
+            </div>
         </section>
     );
 }
