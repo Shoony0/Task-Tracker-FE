@@ -21,6 +21,7 @@ export type UserForm = {
 }
 
 export type Project = {
+    task_set: number[];
     id: number,
     name: string;
     description: string;

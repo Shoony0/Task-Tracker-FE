@@ -34,7 +34,7 @@ function ProjectList() {
                 {
                     projects && projects.length !== 0 ?
                         projects.map((project: Project) => {
-                            return <SingleProject key={project.id} project={project} userRole={userRole} task_set={projects.task_set} />;
+                            return <SingleProject key={project.id} project={project} userRole={userRole} task_set={project.task_set} />;
                         }) :
                         <p>No project found.</p>
                 }

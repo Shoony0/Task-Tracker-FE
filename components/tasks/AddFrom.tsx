@@ -27,6 +27,7 @@ function AddFrom({ projects, projectId, users }: Readonly<{ projects: Project[],
         e.preventDefault();
         const formData = new FormData(e.currentTarget);
         const data = Object.fromEntries(formData) as AddFormType;
+        
         // Validation for owner
         if (data.owner == "0") {
             toast.error("Please select User")
@@ -83,8 +84,7 @@ function AddFrom({ projects, projectId, users }: Readonly<{ projects: Project[],
                         <label htmlFor='project'>Project</label>
                         <select name='project' id="project" defaultValue={projectId} disabled={projectId !== undefined}>
                             {
-                                !projectId &&
-                                <option value={0}>Select Project</option>
+                                !projectId && <option value={0}>Select Project</option>
                             }
                             {
                                 projects?.map((item) => {
@@ -93,6 +93,9 @@ function AddFrom({ projects, projectId, users }: Readonly<{ projects: Project[],
                             }
 
                         </select>
+                        {
+                            projectId && <input type="hidden" name="project" value={projectId} />
+                        }
                     </div>
                     <button type="submit" disabled={isPending}>{isPending ? 'Adding...' : 'Add Task'}</button>
                 </form>

@@ -4,9 +4,9 @@ import { setUpdateProject } from '@/store/slices/updateSlice';
 import Link from 'next/link';
 import React from 'react'
 import Loader from '../Loader';
-import { Project, Tasks } from '@/utils/types';
+import { Project } from '@/utils/types';
 
-function SingleProject({ project, task_set, userRole }: Readonly<{ project: Project, task_set: Tasks[], userRole: string[] }>) {
+function SingleProject({ project, task_set, userRole }: Readonly<{ project: Project, task_set: number[], userRole: string[] }>) {
     // Destructure project fields
     const { id, name, description, start_date, end_date, owner, users } = project;
     const dispatch = useAppDispatch();
