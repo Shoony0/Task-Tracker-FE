@@ -11,11 +11,11 @@ type tokenDataType = {
 
 export function getAccessJWTTokenData(): tokenDataType {
   /**
-   * Utility to decode the access JWT token from sessionStorage.
+   * Utility to decode the access JWT token from localStorage.
    * 
    * @returns Decoded token data if token exists, otherwise default empty values.
    */
-  const token = sessionStorage.getItem('token');
+  const token = localStorage.getItem('token');
 
   if (token) {
     const decodedTokenData: tokenDataType = jwtDecode(token);
@@ -38,7 +38,8 @@ export function clearSession(redirect_login: boolean) {
    * 
    * @param redirectLogin - If true, redirects to login page after clearing session.
    */
-  sessionStorage.clear()
+  
+  localStorage.clear()
   if (redirect_login) {
     // Redirect to login route
     window.location.href = '/';

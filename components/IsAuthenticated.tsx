@@ -8,7 +8,7 @@ function IsAuthenticated() {
 
     useEffect(() => {
         if (pathname === '/sso') return;
-        const token = sessionStorage.getItem("token") || null;
+        const token = localStorage.getItem("token") || null;
         if (!token && pathname !== '/') {
             window.location.href = '/';
         }

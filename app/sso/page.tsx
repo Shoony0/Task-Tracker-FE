@@ -12,7 +12,7 @@ function SSOPage() {
      * 
      * This component handles Single Sign-On (SSO) callback logic.
      * It reads the temporary token from URL params, exchanges it for an access token,
-     * stores it in sessionStorage, and redirects the user accordingly.
+     * stores it in localStorage, and redirects the user accordingly.
      */
 
     // Extract query parameters from the URL
@@ -33,9 +33,9 @@ function SSOPage() {
             getSSOToken(ssoTempToken, {
                 onSuccess: (data) => {
                     if (data?.access) {
-                        // Store tokens in sessionStorage
-                        sessionStorage.setItem('token', data.access);
-                        sessionStorage.setItem('refresh', data.refresh);
+                        // Store tokens in localStorage
+                        localStorage.setItem('token', data.access);
+                        localStorage.setItem('refresh', data.refresh);
                         // Show success message and redirect to projects page
                         toast.success('Login Successfully.');
                         router.replace('/projects');
@@ -54,8 +54,8 @@ function SSOPage() {
                 }
             });
         } else {
-            // If no token present in URL: check if token exists in sessionStorage
-            const token = sessionStorage.getItem('token');
+            // If no token present in URL: check if token exists in localStorage
+            const token = localStorage.getItem('token');
             if (!token) {
                 // No token found → redirect to login
                 router.replace('/');

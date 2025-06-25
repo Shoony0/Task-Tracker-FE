@@ -26,9 +26,9 @@ const Signin = () => {
     // Call login mutation
     loginUser(loginData, {
       onSuccess: ({ data }: { data: JWTToken }) => {
-        // Store tokens in sessionStorage
-        sessionStorage.setItem('token', data.access);
-        sessionStorage.setItem('refresh', data.refresh);
+        // Store tokens in localStorage
+        localStorage.setItem('token', data.access);
+        localStorage.setItem('refresh', data.refresh);
         window.location.href = '/projects'; // hard redirect to /project
       }
     });
