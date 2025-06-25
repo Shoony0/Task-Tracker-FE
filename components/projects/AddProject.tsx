@@ -4,13 +4,14 @@ import AddForm from './AddForm';
 import UpdateForm from './UpdateForm';
 import { useFetchUsers } from '@/api/users';
 import Loader from '../Loader';
+import { getAccessJWTTokenData } from '@/utils/actions';
 
 
 
 
 function AddProject() {
-    // Get current user role from Redux store
-    const { userRole } = useAppSelector((state) => state.user);
+    // Get current user role from local storage store
+    const { roles:userRole } = getAccessJWTTokenData();    
     // Get projectId to determine Add or Edit mode
     const { projectId } = useAppSelector((state) => state.editData)
     // Fetch all users for form options

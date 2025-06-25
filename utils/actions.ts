@@ -1,3 +1,4 @@
+"use client"
 import { AxiosError } from 'axios';
 import { jwtDecode } from 'jwt-decode';
 
@@ -6,7 +7,9 @@ type tokenDataType = {
   exp: number;
   iat: number;
   jti: string;
+  short_name: string;
   user_id: number;
+  roles: string[];
 };
 
 export function getAccessJWTTokenData(): tokenDataType {
@@ -27,7 +30,9 @@ export function getAccessJWTTokenData(): tokenDataType {
     exp: 0,
     iat: 0,
     jti: '',
-    user_id: 0
+    user_id: 0,
+    short_name: 'T U',
+    roles: [],
   };
 }
 

@@ -5,6 +5,7 @@ import AddFrom from './AddFrom';
 import UpdateFrom from './UpdateForm';
 import { useFetchUsers } from '@/api/users';
 import Loader from '../Loader';
+import { getAccessJWTTokenData } from '@/utils/actions';
 
 
 
@@ -16,7 +17,7 @@ function AddTask({ projectId }: Readonly<{ projectId?: number }>) {
      * - Fetches necessary users and project data from global state.
      * - Controls access based on userRole (admin or task_creator).
      */
-    const { userRole } = useAppSelector((state) => state.user);
+    const { roles:userRole } = getAccessJWTTokenData();    
     const { taskId } = useAppSelector((state) => state.editData);
     const { projects } = useAppSelector((state) => state.project);
 

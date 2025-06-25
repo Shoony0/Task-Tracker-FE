@@ -3,8 +3,8 @@ import { useFetchTasks } from '@/api/tasks';
 import React from 'react'
 import SingleTask from './SingleTask';
 import Loader from '../Loader';
-import { useAppSelector } from '@/store/hooks';
 import { Tasks } from '@/utils/types';
+import { getAccessJWTTokenData } from '@/utils/actions';
 
 
 function TaskList({ projectId }: Readonly<{ projectId?: number }>) {
@@ -18,8 +18,8 @@ function TaskList({ projectId }: Readonly<{ projectId?: number }>) {
      * @param projectId - (optional) ID of the project to fetch tasks for.
      */
 
-    // Get user role from Redux store
-    const { userRole } = useAppSelector((state) => state.user);
+    // Get user role from localStorage store
+    const { roles:userRole } = getAccessJWTTokenData();    
     // Fetch tasks using custom hook, supports optional projectId filter
     const { data: tasks, isLoading } = useFetchTasks(projectId);
     // Show loader while fetching tasks

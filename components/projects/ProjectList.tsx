@@ -3,14 +3,15 @@
 import { useFetchProjects } from '@/api/projects';
 import React, { useEffect } from 'react'
 import SingleProject from './SingleProject';
-import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import { useAppDispatch } from '@/store/hooks';
 import { setProjectList } from '@/store/slices/projectSlice';
 import { Project } from '@/utils/types';
 import Loader from '../Loader';
+import { getAccessJWTTokenData } from '@/utils/actions';
 
 function ProjectList() {
-    // Get user roles from Redux 
-    const { userRole } = useAppSelector((state) => state.user);
+    // Get user roles from localstorage 
+    const { roles:userRole } = getAccessJWTTokenData();    
     // Fetch projects using React Query
     const { data: projects, isLoading } = useFetchProjects();
 

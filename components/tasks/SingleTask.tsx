@@ -1,10 +1,11 @@
 import { useDeleteTask, useUpdateTask } from '@/api/tasks';
-import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import { useAppDispatch } from '@/store/hooks';
 import { setUpdateTask } from '@/store/slices/updateSlice';
 import { TaskStatusList } from '@/utils/data';
 import React, { useState } from 'react'
 import Loader from '../Loader';
 import { Tasks, taskUpdateStatus } from '@/utils/types';
+import { getAccessJWTTokenData } from '@/utils/actions';
 
 function SingleTask({ id, description, due_date, status, owner, project, creator }: Readonly<Tasks>) {
     const [taskId, setTaskId] = useState<number>(0);
@@ -33,7 +34,7 @@ function SingleTask({ id, description, due_date, status, owner, project, creator
     };
     
     // Get current user's role from Redux state
-    const { userRole } = useAppSelector((state) => state.user);
+    const { roles:userRole } = getAccessJWTTokenData();    
     return (
         <tr>
             <td>{description}</td>
